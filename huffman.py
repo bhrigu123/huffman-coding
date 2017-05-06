@@ -1,7 +1,10 @@
 import heapq
 import os
 
-"""Code for Huffman Coding, compression and decompression. Explanation at http://bhrigu.me"""
+"""
+Code for Huffman Coding, compression and decompression. 
+Explanation at http://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementation/
+"""
 
 class HeapNode:
 	def __init__(self, char, freq):
