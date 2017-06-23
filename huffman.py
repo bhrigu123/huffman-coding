@@ -1,11 +1,13 @@
 import heapq
 import os
+from functools import total_ordering
 
 """
 Code for Huffman Coding, compression and decompression. 
 Explanation at http://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementation/
 """
 
+@total_ordering
 class HeapNode:
 	def __init__(self, char, freq):
 		self.char = char
@@ -13,12 +15,16 @@ class HeapNode:
 		self.left = None
 		self.right = None
 
-	def __cmp__(self, other):
+	# defining comparators less_than and equals
+	def __lt__(self, other):
+		return self.freq < other.freq
+
+	def __eq__(self, other):
 		if(other == None):
-			return 1
+			return False
 		if(not isinstance(other, HeapNode)):
-			return 1
-		return self.freq > other.freq
+			return False
+		return self.freq == other.freq
 
 
 class HuffmanCoding:
@@ -160,7 +166,7 @@ class HuffmanCoding:
 			bit_string = ""
 
 			byte = file.read(1)
-			while(byte != ""):
+			while(len(byte) > 0):
 				byte = ord(byte)
 				bits = bin(byte)[2:].rjust(8, '0')
 				bit_string += bits
