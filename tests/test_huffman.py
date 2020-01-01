@@ -14,7 +14,7 @@ def test_input_equals_output():
 
   assert filecmp.cmp("sample.txt", decompressed_file)
 
-@pytest.mark.skip
+#@pytest.mark.skip
 def test_with_no_newline_at_end():
   
   # no new line at the end
@@ -24,7 +24,7 @@ def test_with_no_newline_at_end():
 
   assert filecmp.cmp("sample2_with_newline.txt", decompressed_file)
 
-@pytest.mark.skip
+#@pytest.mark.skip
 def test_with_multiple_lines():
 
   # no new line at the end
@@ -34,7 +34,7 @@ def test_with_multiple_lines():
 
   assert filecmp.cmp("sample3_with_twolines.txt", decompressed_file)
 
-@pytest.mark.skip
+#@pytest.mark.skip
 def test_with_multiple_lines_with_newline():
 
   # no new line at the end
