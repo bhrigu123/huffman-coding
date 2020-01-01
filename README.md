@@ -1,4 +1,7 @@
-### Python Implementaion of Huffman Coding
+[![Run on Repl.it](https://repl.it/badge/github/kgashok/huffman-coding)](https://repl.it/github/kgashok/huffman-coding)
+
+
+### Python Implementation of Huffman Coding
 
 Explanation at http://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementation/
 
@@ -16,3 +19,4 @@ To run the code for compression of any other text file, edit the `path` variable
 
 
 For now, the *decompress()* function is to be called from the same object from which the *compress()* function was called, for compressing-decompressing a file (as the encoding information is stored in the data members of the object only) 
+
