@@ -7,6 +7,13 @@ Explanation at http://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementa
 
 Consists **compress** and **decompress** function.
 
+#### Repo to Repl 
+1. Click on the repl.it badge above. 
+2. Click the green "Run" button and the existing tests cases should run
+
+![run](/img/runButton.png)
+
+
 
 #### Testing / Running the program
 
