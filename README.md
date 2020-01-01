@@ -9,11 +9,15 @@ Consists **compress** and **decompress** function.
 
 #### Repo to Repl 
 1. Click on the repl.it badge above. 
-2. Click the green "Run" button and the existing tests cases should run
+2. Look for the green "Run" button at the top of the screen. Click on it and existing tests cases should run
 
 ![run](/img/runButton.png)
 
+3. If you get an error "No module named pytest", then run the following commands on the right hand side in the bash prompt. 
+  - chmod 755 install.sh
+  - ./install.sh (pytest and autopep8 install triggered)
 
+4. Now, try clicking the green "Run" button again.
 
 #### Testing / Running the program
 
