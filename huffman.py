@@ -31,7 +31,7 @@ class HeapNode:
 
 
 class HuffmanCoding:
-  def __init__(self, path):
+  def __init__(self, path=None):
     self.path = path
     self.heap = []
     self.codes = {}
@@ -106,14 +106,23 @@ class HuffmanCoding:
       b.append(int(byte, 2))
     return b
 
+  # returns what?
+  # simply prints compressed data which is non-binary?
+  def compress_text(self, text):
+    return text
+
+
   # returns a path to the compressed binary file
-  def compress(self):
+  def compress(self, text=None):
     filename, file_extension = os.path.splitext(self.path)
     output_path = filename + ".bin"
 
+    if text or not self.path:
+      compress_text(self, text)
+
     with open(self.path, 'r+') as file, open(output_path, 'wb') as output:
       text = file.read()
-      text = text.rstrip()
+      # text = text.rstrip()
 
       frequency = self.make_frequency_dict(text)
       self.make_heap(frequency)
