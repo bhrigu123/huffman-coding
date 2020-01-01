@@ -1,6 +1,5 @@
-[![Run on Repl.it](https://repl.it/badge/github/kgashok/huffman-coding)](https://repl.it/github/kgashok/huffman-coding)
-
-_(for configuration instructions, see below)_
+[![Run on Repl.it](https://repl.it/badge/github/kgashok/huffman-coding)](https://repl.it/github/kgashok/huffman-coding)  
+_(for additional configuration instructions, see below)_
 
 ### Python Implementation of Huffman Coding
 
@@ -21,7 +20,7 @@ To run the code for compression of any other text file, edit the `path` variable
 
 For now, the *decompress()* function is to be called from the same object from which the *compress()* function was called, for compressing-decompressing a file (as the encoding information is stored in the data members of the object only) 
 
-#### Repo to Repl 
+## Repo to Repl 
 1. Click on the gray **repl.it badge** above. 
 2. Wait for the repo to get loaded into repl.it
 3. Look for the green "Run" button at the top of the screen. Click on it and existing tests cases should run
