@@ -158,7 +158,8 @@ class HuffmanCoding:
 
 		return decoded_text
 
-
+  # returns a path to the text file 
+  # containing the decompressed text
 	def decompress(self, input_path):
 		filename, file_extension = os.path.splitext(self.path)
 		output_path = filename + "_decompressed" + ".txt"
