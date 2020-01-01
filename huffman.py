@@ -115,7 +115,7 @@ class HuffmanCoding:
 
 		with open(self.path, 'r+') as file, open(output_path, 'wb') as output:
 			text = file.read()
-			text = text.rstrip()
+			# text = text.rstrip()
 
 			frequency = self.make_frequency_dict(text)
 			self.make_heap(frequency)
