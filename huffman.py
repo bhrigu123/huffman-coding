@@ -1,10 +1,11 @@
-import heapq
+# heapq is used a max heap
+import heapq 
 import os
 from functools import total_ordering
 
 """
 Code for Huffman Coding, compression and decompression. 
-Explanation at http://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementation/
+Explanation at http://j.mp/huffmanPy
 """
 
 @total_ordering
