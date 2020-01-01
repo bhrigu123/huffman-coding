@@ -1,5 +1,6 @@
 [![Run on Repl.it](https://repl.it/badge/github/kgashok/huffman-coding)](https://repl.it/github/kgashok/huffman-coding)
 
+_(for configuration instructions, see below)_
 
 ### Python Implementation of Huffman Coding
 
@@ -7,20 +8,6 @@ Explanation at http://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementa
 
 Consists **compress** and **decompress** function.
 
-#### Repo to Repl 
-1. Click on the repl.it badge above. 
-2. Look for the green "Run" button at the top of the screen. Click on it and existing tests cases should run
-
-![run](/img/runButton.png)
-
-3. If you get an error **"No module named pytest"**, then run the following commands on the right hand side in the bash prompt. 
-
-    ```bash
-    chmod 755 install.sh
-    ./install.sh # (pytest and autopep8 install triggered)
-    ```
-
-4. Now, try clicking the green "Run" button again. IT should work.
 
 #### Testing / Running the program
 
@@ -34,3 +21,18 @@ To run the code for compression of any other text file, edit the `path` variable
 
 For now, the *decompress()* function is to be called from the same object from which the *compress()* function was called, for compressing-decompressing a file (as the encoding information is stored in the data members of the object only) 
 
+#### Repo to Repl 
+1. Click on the gray **repl.it badge** above. 
+2. Wait for the repo to get loaded into repl.it
+3. Look for the green "Run" button at the top of the screen. Click on it and existing tests cases should run
+
+![run](/img/runButton.png)
+
+4. If you get an error **"No module named pytest"**, then run the following commands on the right hand side in the bash prompt. 
+
+    ```bash
+    chmod 755 install.sh
+    ./install.sh # (pytest and autopep8 install triggered)
+    ```
+
+5. Now, try clicking the green "Run" button again. IT should work.
