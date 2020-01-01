@@ -3,6 +3,7 @@ import heapq
 import os
 from functools import total_ordering
 
+
 """
 Code for Huffman Coding, compression and decompression. 
 Explanation at http://j.mp/huffmanPy
@@ -109,7 +110,7 @@ class HuffmanCoding:
 			b.append(int(byte, 2))
 		return b
 
-
+  # returns a path to the compressed binary file 
 	def compress(self):
 		filename, file_extension = os.path.splitext(self.path)
 		output_path = filename + ".bin"
