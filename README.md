@@ -13,7 +13,7 @@ Consists **compress** and **decompress** function.
 
 ![run](/img/runButton.png)
 
-3. If you get an error "No module named pytest", then run the following commands on the right hand side in the bash prompt. 
+3. If you get an error **"No module named pytest"**, then run the following commands on the right hand side in the bash prompt. 
   - chmod 755 install.sh
   - ./install.sh (pytest and autopep8 install triggered)
 
