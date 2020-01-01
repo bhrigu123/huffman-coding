@@ -1,5 +1,5 @@
 [![Run on Repl.it](https://repl.it/badge/github/kgashok/huffman-coding)](https://repl.it/github/kgashok/huffman-coding)  
-_(for additional configuration instructions, see below)_
+_(for additional configuration instructions, see [below](https://github.com/kgashok/huffman-coding#repo-to-repl))_
 
 ### Python Implementation of Huffman Coding
 
@@ -31,7 +31,11 @@ For now, the *decompress()* function is to be called from the same object from w
 
     ```bash
     chmod 755 install.sh
-    ./install.sh # (pytest and autopep8 install triggered)
+    ```
+    followed by
+    ```bash
+    . install.sh  # period and space and 'install.sh'
+    # wait for 'pytest' and 'autopep8' install to complete
     ```
 
 5. Now, try clicking the green "Run" button again. IT should work.
