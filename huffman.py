@@ -170,9 +170,7 @@ class HuffmanCoding:
         byte = file.read(1)
 
       encoded_text = self.remove_padding(bit_string)
-
       decompressed_text = self.decode_text(encoded_text)
-
       output.write(decompressed_text)
 
     print("Decompressed")
