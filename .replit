@@ -1,2 +1,3 @@
 language = "python3"
-run = "python3 useHuffman.py"
+#run = "python3 useHuffman.py"
+run = "python3 -m pytest tests/test_huffman.py"

@@ -3,4 +3,4 @@ alias pytest="/home/runner/.local/bin/pytest"
 
 cp gitignore .gitignore
 cd tests
-/home/runner/.local/bin/pytest
+python3 -m pytest test_huffman.py
