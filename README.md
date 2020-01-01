@@ -14,10 +14,13 @@ Consists **compress** and **decompress** function.
 ![run](/img/runButton.png)
 
 3. If you get an error **"No module named pytest"**, then run the following commands on the right hand side in the bash prompt. 
-  - chmod 755 install.sh
-  - ./install.sh (pytest and autopep8 install triggered)
 
-4. Now, try clicking the green "Run" button again.
+    ```bash
+    chmod 755 install.sh
+    ./install.sh # (pytest and autopep8 install triggered)
+    ```
+
+4. Now, try clicking the green "Run" button again. IT should work.
 
 #### Testing / Running the program
 
