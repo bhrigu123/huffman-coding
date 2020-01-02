@@ -79,30 +79,16 @@ class HuffmanCoding:
       encoded_text += self.codes[character]
     return encoded_text
 
-  '''
-  After we have converted the text into some series of bits, 
-  we need to store it as a binary file. Bytes are stored 
-  in the binary file. So we will take up 8 bits at a time and
-  convert them into bytes and store them in file (line 96-97).
-  But what if the number of bits in our encoded text were 
-  not a multiple of 8? Some bits would be left out during
-  conversion to bytes. So we pad our encoded text with 
-  some '0's to make it multiple of 8 (lines 80-82).
-  Now, during decompression we need to know how many padded bits
-  were added, so we remove it before decoding our encoded text.
-  Thus, how many padded bits were added, this extra info is
-  stored in the beginning of our encoded text using 8 bits
-  (line 84-85).
-  Thus during decompression, we read padding info -> remove
-  padded bits -> then start our decompression by reading of
-  further bits. 
-  '''
-
   def pad_encoded_text(self, encoded_text):
+    # Extra bits at the end of the bit stream
+    # so that the bit stream is a multiple of 8
     extra_padding = 8 - len(encoded_text) % 8
     for i in range(extra_padding):
       encoded_text += "0"
 
+    # The above pads needs to be removed during decompress
+    # That is also formatted as a byte and stored
+    # ahead of the bit stream
     padded_info = "{0:08b}".format(extra_padding)
     encoded_text = padded_info + encoded_text
     return encoded_text
