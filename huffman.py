@@ -41,7 +41,7 @@ class HuffmanCoding:
   make_frequency_dict = Counter
 
   def make_heap(self, frequency):
-    pprint(frequency)
+    # pprint(frequency)
     for key in frequency:
       node = HeapNode(key, frequency[key])
       heapq.heappush(self.heap, node)
@@ -51,7 +51,7 @@ class HuffmanCoding:
       node1 = heapq.heappop(self.heap)
       node2 = heapq.heappop(self.heap)
 
-      # through the merging process we can 
+      # through the merging process we can
       # the most frequeny raises to the top
       merged = HeapNode(None, node1.freq + node2.freq)
       merged.left = node1
@@ -59,7 +59,7 @@ class HuffmanCoding:
 
       heapq.heappush(self.heap, merged)
 
-  # recursive function which is at the heart 
+  # recursive function which is at the heart
   # of it all - need to make sense of this!
   def make_codes_helper(self, root, current_code):
     if(root is None):
@@ -68,20 +68,22 @@ class HuffmanCoding:
     if(root.char is not None):
       self.codes[root.char] = current_code
       self.reverse_mapping[current_code] = root.char
-      print(self.reverse_mapping)
+      # print(self.reverse_mapping)
       return
 
     self.make_codes_helper(root.left, current_code + "0")
     self.make_codes_helper(root.right, current_code + "1")
 
   def make_codes(self):
-    # Use the heap, a binary tree which was 
+    # Use the heap, a binary tree which was
     # build using the frequency dictionary
     # Eventually, a map is obtained between code and
-    # character 
+    # character
+    # print("heap size", len(self.heap))
     root = heapq.heappop(self.heap)
     current_code = ""
     self.make_codes_helper(root, current_code)
+    heapq.heappush(self.heap, root)
 
   def get_encoded_text(self, text):
     encoded_text = ""
@@ -114,8 +116,8 @@ class HuffmanCoding:
       b.append(int(byte, 2))
     return b
 
-  # takes a text string and returns back 
-  # a stringified version of the binary bit stream 
+  # takes a text string and returns back
+  # a stringified version of the binary bit stream
   # that represents the compressed output
   def compress_text(self, text: str) -> str:
     return str(bin(len(text)))
@@ -136,15 +138,15 @@ class HuffmanCoding:
       frequency = self.make_frequency_dict(text)
       # build a heapthat capture info in the dict
       self.make_heap(frequency)
-      # merge nodes so automatically the most 
+      # merge nodes so automatically the most
       # frequency raises to the top
       self.merge_nodes()
       # capture this information in a mapping
-      # instead of actually traversing the tree? 
+      # instead of actually traversing the tree?
       self.make_codes()
 
-      # actual conversion from text to stringified 
-      # padded binary stream 
+      # actual conversion from text to stringified
+      # padded binary stream
       encoded_text = self.get_encoded_text(text)
       padded_encoded_text = self.pad_encoded_text(encoded_text)
       # convert to actual bytes and write to file
@@ -171,29 +173,53 @@ class HuffmanCoding:
 
     return encoded_text
 
-  # takes a stringified binary bit stream and refers 
-  # to the reverse_mapping to convert it into human 
+  # takes a stringified binary bit stream and refers
+  # to the reverse_mapping to convert it into human
   # readable characters
   def decode_text(self, encoded_text: str) -> str:
     current_code = ""
     decoded_text = ""
-    print(encoded_text)
-    print(self.reverse_mapping)
+    # print(encoded_text)
+    # print(self.reverse_mapping)
 
     for bit in encoded_text:
       current_code += bit
       if(current_code in self.reverse_mapping):
         character = self.reverse_mapping[current_code]
-        print(decoded_text, end = " + ")
+        #print(decoded_text, end = " + ")
         decoded_text += character
-        print(character)
+        # print(character)
         # reset the code and build the next
         current_code = ""
 
     return decoded_text
 
+  def is_leafnode(self, n):
+    return not n.left and not n.right
+
+  def decode_text2(self, etext: str) -> str:
+    #print("heap size", len(self.heap))
+    root = heapq.heappop(self.heap)
+    node = root
+    print("etext", etext)
+    decoded = ""
+    for bit in etext:
+      if bit == '1':
+        node = node.right
+        if self.is_leafnode(node):
+          decoded += node.char
+          node = root
+      elif bit == '0':
+        node = node.left
+        if self.is_leafnode(node):
+          decoded += node.char
+          node = root
+      print(decoded)
+    return decoded
+
   # returns a path to the text file
   # containing the decompressed text
+
   def decompress(self, input_path: str) -> str:
     filename, file_extension = os.path.splitext(self.path)
     output_path = filename + "_decompressed" + ".txt"
@@ -209,7 +235,7 @@ class HuffmanCoding:
         bit_string += bits
         byte = file.read(1)
 
-      # remove the pads, and decompress bits to 
+      # remove the pads, and decompress bits to
       # text by using reverse_mapping
       encoded_text = self.remove_padding(bit_string)
       decompressed_text = self.decode_text(encoded_text)

@@ -6,6 +6,7 @@ from collections import Counter, defaultdict
 from pprint import pprint
 
 
+@pytest.mark.skip
 def test_input_equals_output():
 
   hc = huffman.HuffmanCoding("sample.txt")
@@ -14,7 +15,8 @@ def test_input_equals_output():
 
   assert filecmp.cmp("sample.txt", decompressed_file)
 
-# @pytest.mark.skip
+
+@pytest.mark.skip
 def test_with_no_newline_at_end():
 
   # no new line at the end
@@ -24,7 +26,8 @@ def test_with_no_newline_at_end():
 
   assert filecmp.cmp("sample2_with_newline.txt", decompressed_file)
 
-# @pytest.mark.skip
+
+@pytest.mark.skip
 def test_with_ABRACADABRA():
 
   # no new line at the end
@@ -34,7 +37,8 @@ def test_with_ABRACADABRA():
 
   assert filecmp.cmp("sample3_with_twolines.txt", decompressed_file)
 
-# @pytest.mark.skip
+
+@pytest.mark.skip
 def test_with_ABACA():
 
   # no new line at the end
@@ -45,11 +49,21 @@ def test_with_ABACA():
   assert filecmp.cmp("sample4.txt", decompressed_file)
 
 
+@pytest.mark.skip
 def test_with_text_returning_encoded_text():
   tokens = "abaca"
   hc = huffman.HuffmanCoding()
   encoded_text = hc.compress_text(tokens)
   assert encoded_text != tokens
+
+
+def test_with_alternate_decompress_code():
+  hc = huffman.HuffmanCoding("sample4.txt")
+  compressed_file = hc.compress()
+  hc.decode_text = hc.decode_text2
+  decompressed_file = hc.decompress(compressed_file)
+  assert filecmp.cmp("sample4.txt", decompressed_file)
+
 
 @pytest.mark.skip
 def test_performance_compress(capsys):
@@ -61,7 +75,7 @@ def test_performance_compress(capsys):
       (hc.make_frequency_dict_deprecated, "deprecated"),
       (Counter, "counter")
   ]
-  
+
   with capsys.disabled():
     for tuple in freq_options:
       start = time.time()
