@@ -38,14 +38,22 @@ class HuffmanCoding:
     self.reverse_mapping = {}
 
   # functions for compression:
-
-  def make_frequency_dict(self, text):
-    # return Counter(text)
+  make_frequency_dict = Counter
+  
+  def make_frequency_dict_default(self, text):
     frequency = defaultdict(int)
     for character in text:
       frequency[character] += 1
     return frequency
-    
+
+  def make_frequency_dict_deprecated(self, text):
+    frequency = {}
+    for character in text:
+      if character not in frequency:	
+        frequency[character] = 0	
+      frequency[character] += 1	      
+    return frequency
+
   def make_heap(self, frequency):
     for key in frequency:
       node = HeapNode(key, frequency[key])

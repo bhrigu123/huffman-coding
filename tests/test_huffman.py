@@ -2,7 +2,8 @@ import filecmp
 import huffman
 import pytest
 import time 
-from collections import Counter
+from collections import Counter, defaultdict
+from pprint import pprint 
 
 def test_creation_of_huffman():
   
@@ -56,19 +57,38 @@ def test_with_text_returning_encoded_text():
 def test_defaultdict_vs_counter_for_compress():
   hc = huffman.HuffmanCoding("../sample.txt")
 
-  start = time.time()
-  hc.compress()
-  defaultdict_time = time.time() - start
-  print("Time taken (defaultdict):", defaultdict_time)
+  timing = defaultdict(int)
 
-  hc.make_frequency_dict = Counter
+  freq_options = [
+    (hc.make_frequency_dict_default, "default"),
+    (hc.make_frequency_dict_deprecated, "deprecated"),
+    (Counter, "counter")
+  ]
+
+  for tuple in freq_options:
+    start = time.time()
+    hc.make_frequency_dict = tuple[0]
+    hc.compress()
+    difference = time.time() - start
+    print("("+tuple[1]+")", "time taken:", difference)
+    timing[tuple[1]] = difference
+
+  '''
+  hc.make_frequency_dict = tuple[0]
   start = time.time()
   hc.compress()
   counter_time = time.time() - start
-  print("Time taken (Counter):", counter_time)
+  print("(Counter): Time taken:", counter_time)
+  timing['counter'] = counter_time
+  '''
 
-  assert counter_time < defaultdict_time
-  
+  pprint(timing)
+
+  improvement = (timing['deprecated'] - timing['counter'])/timing['deprecated']*100
+  print("Performance improvement", 
+    f'{improvement:.2f}%')
+
+  assert timing['counter'] < timing['default'] < timing['deprecated']
 
 
   
