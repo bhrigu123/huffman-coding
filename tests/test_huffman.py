@@ -6,11 +6,6 @@ from collections import Counter, defaultdict
 from pprint import pprint
 
 
-def test_creation_of_huffman():
-
-  hc = huffman.HuffmanCoding("sample.text")
-
-
 def test_input_equals_output():
 
   hc = huffman.HuffmanCoding("sample.txt")
@@ -20,8 +15,6 @@ def test_input_equals_output():
   assert filecmp.cmp("sample.txt", decompressed_file)
 
 # @pytest.mark.skip
-
-
 def test_with_no_newline_at_end():
 
   # no new line at the end
@@ -32,9 +25,7 @@ def test_with_no_newline_at_end():
   assert filecmp.cmp("sample2_with_newline.txt", decompressed_file)
 
 # @pytest.mark.skip
-
-
-def test_with_multiple_lines():
+def test_with_ABRACADABRA():
 
   # no new line at the end
   hc = huffman.HuffmanCoding("sample3_with_twolines.txt")
@@ -44,9 +35,7 @@ def test_with_multiple_lines():
   assert filecmp.cmp("sample3_with_twolines.txt", decompressed_file)
 
 # @pytest.mark.skip
-
-
-def test_with_multiple_lines_with_newline():
+def test_with_ABACA():
 
   # no new line at the end
   hc = huffman.HuffmanCoding("sample4.txt")
@@ -62,9 +51,7 @@ def test_with_text_returning_encoded_text():
   encoded_text = hc.compress_text(tokens)
   assert encoded_text != tokens
 
-# @pytest.mark.skip
-
-
+@pytest.mark.skip
 def test_performance_compress(capsys):
   hc = huffman.HuffmanCoding("../sample.txt")
 
@@ -74,14 +61,15 @@ def test_performance_compress(capsys):
       (hc.make_frequency_dict_deprecated, "deprecated"),
       (Counter, "counter")
   ]
-  for tuple in freq_options:
-    start = time.time()
-    hc.make_frequency_dict = tuple[0]
-    hc.compress()
-    difference = time.time() - start
-    # with capsys.disabled():
-    print("(" + tuple[1] + ")", "time taken:", difference)
-    timing[tuple[1]] = difference
+  
+  with capsys.disabled():
+    for tuple in freq_options:
+      start = time.time()
+      hc.make_frequency_dict = tuple[0]
+      hc.compress()
+      difference = time.time() - start
+      print("(" + tuple[1] + ")", "time taken:", difference)
+      timing[tuple[1]] = difference
 
   pprint(timing)
 

@@ -3,7 +3,7 @@ import heapq
 import os
 from functools import total_ordering
 from collections import defaultdict, Counter
-
+from pprint import pprint
 """
 Code for Huffman Coding, compression and decompression.
 Explanation at http://j.mp/huffmanPy
@@ -41,6 +41,7 @@ class HuffmanCoding:
   make_frequency_dict = Counter
 
   def make_heap(self, frequency):
+    pprint(frequency)
     for key in frequency:
       node = HeapNode(key, frequency[key])
       heapq.heappush(self.heap, node)
@@ -58,9 +59,8 @@ class HuffmanCoding:
 
       heapq.heappush(self.heap, merged)
 
-  # recursive function which we can identify 
-  # when we see one.
-  # this needs be examined what it does! 
+  # recursive function which is at the heart 
+  # of it all - need to make sense of this!
   def make_codes_helper(self, root, current_code):
     if(root is None):
       return
@@ -68,12 +68,17 @@ class HuffmanCoding:
     if(root.char is not None):
       self.codes[root.char] = current_code
       self.reverse_mapping[current_code] = root.char
+      print(self.reverse_mapping)
       return
 
     self.make_codes_helper(root.left, current_code + "0")
     self.make_codes_helper(root.right, current_code + "1")
 
   def make_codes(self):
+    # Use the heap, a binary tree which was 
+    # build using the frequency dictionary
+    # Eventually, a map is obtained between code and
+    # character 
     root = heapq.heappop(self.heap)
     current_code = ""
     self.make_codes_helper(root, current_code)
@@ -139,10 +144,10 @@ class HuffmanCoding:
       self.make_codes()
 
       # actual conversion from text to stringified 
-      # binary stream 
+      # padded binary stream 
       encoded_text = self.get_encoded_text(text)
       padded_encoded_text = self.pad_encoded_text(encoded_text)
-
+      # convert to actual bytes and write to file
       b = self.get_byte_array(padded_encoded_text)
       output.write(bytes(b))
 
@@ -159,7 +164,7 @@ class HuffmanCoding:
             bit_stream +
             {pads}
     '''
-    bits_only = slice(8, -1 * extra_padding)
+    bits_only = slice(8, -extra_padding)
     encoded_text = padded_encoded_text[bits_only]
     # padded_encoded_text = padded_encoded_text[8:]
     # encoded_text = padded_encoded_text[:-1*extra_padding]
@@ -182,6 +187,7 @@ class HuffmanCoding:
         print(decoded_text, end = " + ")
         decoded_text += character
         print(character)
+        # reset the code and build the next
         current_code = ""
 
     return decoded_text
@@ -192,6 +198,7 @@ class HuffmanCoding:
     filename, file_extension = os.path.splitext(self.path)
     output_path = filename + "_decompressed" + ".txt"
 
+    # bytes to string of bits
     with open(input_path, 'rb') as file, open(output_path, 'w') as output:
       bit_string = ""
 
@@ -202,6 +209,8 @@ class HuffmanCoding:
         bit_string += bits
         byte = file.read(1)
 
+      # remove the pads, and decompress bits to 
+      # text by using reverse_mapping
       encoded_text = self.remove_padding(bit_string)
       decompressed_text = self.decode_text(encoded_text)
       output.write(decompressed_text)

@@ -1,2 +1,1 @@
-the dog jumped over lazy fox
-
+text with no new line at the end
