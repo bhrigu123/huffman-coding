@@ -39,3 +39,8 @@ For now, the *decompress()* function is to be called from the same object from w
     ```
 
 5. Now, try clicking the green "Run" button again. IT should work.
+
+### The genius of Huffman
+
+Read http://www.skypape.com/huffman.htm 
+![huffman](/img/huffmanDr.jpg)
