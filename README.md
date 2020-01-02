@@ -3,7 +3,7 @@ _(for additional configuration instructions, see [below](https://github.com/kgas
 
 ### Python Implementation of Huffman Coding
 
-Explanation at http://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementation/
+Explanation at http://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementation/ or http://j.mp/huffmanPy
 
 Consists **compress** and **decompress** function.
 

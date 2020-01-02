@@ -2,7 +2,7 @@
 import heapq
 import os
 from functools import total_ordering
-
+from collections import Counter
 
 """
 Code for Huffman Coding, compression and decompression.
@@ -40,12 +40,13 @@ class HuffmanCoding:
   # functions for compression:
 
   def make_frequency_dict(self, text):
-    frequency = {}
+    return Counter(text)
+    '''
+    frequency = defaultdict(int)
     for character in text:
-      if character not in frequency:
-        frequency[character] = 0
       frequency[character] += 1
     return frequency
+    '''
 
   def make_heap(self, frequency):
     for key in frequency:
