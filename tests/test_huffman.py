@@ -75,8 +75,7 @@ def test_performance_compress(capsys):
   pprint(timing)
 
   improvement = (timing['deprecated'] - timing['counter'])/timing['deprecated']*100
-  print("Performance improvement", 
-      f'{improvement:.2f}%')
+  print("Performance improvement", f'{improvement:.2f}%')
 
   assert timing['counter'] < timing['default'] < timing['deprecated']
 

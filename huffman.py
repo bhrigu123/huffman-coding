@@ -32,10 +32,10 @@ class HeapNode:
 
 class HuffmanCoding:
   def __init__(self, path=None):
-    self.path = path
-    self.heap = []
-    self.codes = {}
-    self.reverse_mapping = {}
+    self.path  : str = path
+    self.heap  : list = []
+    self.codes : dict = {}
+    self.reverse_mapping : dict = {}
 
   # functions for compression:
   make_frequency_dict = Counter
