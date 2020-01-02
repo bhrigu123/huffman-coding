@@ -12,7 +12,7 @@ Explanation at http://j.mp/huffmanPy
 
 @total_ordering
 class HeapNode:
-  def __init__(self, char, freq):
+  def __init__(self, char : str, freq : dict):
     self.char = char
     self.freq = freq
     self.left = None
@@ -111,8 +111,7 @@ class HuffmanCoding:
     return text
 
   # returns a path to the compressed binary file
-
-  def compress(self, text=None):
+  def compress(self, text : str = None) -> str:
     filename, file_extension = os.path.splitext(self.path)
     output_path = filename + ".bin"
 
@@ -163,7 +162,7 @@ class HuffmanCoding:
 
   # returns a path to the text file
   # containing the decompressed text
-  def decompress(self, input_path):
+  def decompress(self, input_path: str) -> str:
     filename, file_extension = os.path.splitext(self.path)
     output_path = filename + "_decompressed" + ".txt"
 
