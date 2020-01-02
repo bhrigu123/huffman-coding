@@ -58,35 +58,25 @@ def test_performance_compress(capsys):
   hc = huffman.HuffmanCoding("../sample.txt")
 
   timing = defaultdict(int)
-
   freq_options = [
     (hc.make_frequency_dict_default, "default"),
     (hc.make_frequency_dict_deprecated, "deprecated"),
     (Counter, "counter")
   ]
-
   for tuple in freq_options:
     start = time.time()
     hc.make_frequency_dict = tuple[0]
     hc.compress()
     difference = time.time() - start
+    # with capsys.disabled():
     print("("+tuple[1]+")", "time taken:", difference)
     timing[tuple[1]] = difference
-
-  '''
-  hc.make_frequency_dict = tuple[0]
-  start = time.time()
-  hc.compress()
-  counter_time = time.time() - start
-  print("(Counter): Time taken:", counter_time)
-  timing['counter'] = counter_time
-  '''
 
   pprint(timing)
 
   improvement = (timing['deprecated'] - timing['counter'])/timing['deprecated']*100
   print("Performance improvement", 
-    f'{improvement:.2f}%')
+      f'{improvement:.2f}%')
 
   assert timing['counter'] < timing['default'] < timing['deprecated']
 
