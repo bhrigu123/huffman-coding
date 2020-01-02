@@ -54,7 +54,7 @@ def test_with_text_returning_encoded_text():
   assert encoded_text != tokens
 
 #@pytest.mark.skip
-def test_defaultdict_vs_counter_for_compress():
+def test_performance_compress(capsys):
   hc = huffman.HuffmanCoding("../sample.txt")
 
   timing = defaultdict(int)
