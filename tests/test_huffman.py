@@ -52,15 +52,14 @@ def test_with_text_returning_encoded_text():
   encoded_text = hc.compress_text(tokens)
   assert encoded_text != tokens
 
-@pytest.mark.skip
+#@pytest.mark.skip
 def test_defaultdict_vs_counter_for_compress():
   hc = huffman.HuffmanCoding("../sample.txt")
 
   start = time.time()
   hc.compress()
   defaultdict_time = time.time() - start
-
-  print("Time taken (defaultdict):", defaultdict_time
+  print("Time taken (defaultdict):", defaultdict_time)
 
   hc.make_frequency_dict = Counter
   start = time.time()
@@ -69,7 +68,7 @@ def test_defaultdict_vs_counter_for_compress():
   print("Time taken (Counter):", counter_time)
 
   assert counter_time < defaultdict_time
-
+  
 
 
   
