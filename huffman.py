@@ -33,7 +33,10 @@ class HeapNode:
 class HuffmanCoding:
   def __init__(self, path=None):
     self.path: str = path
+    # heap implemented as an array (list)
     self.heap: list = []
+    # code and reverse_mapping are the inverse
+    # of each other
     self.codes: dict = {}
     self.reverse_mapping: dict = {}
 
