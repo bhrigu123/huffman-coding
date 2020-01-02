@@ -1,4 +1,4 @@
-# heapq is used a max heap
+# heapq is used as min heap
 import heapq
 import os
 from functools import total_ordering

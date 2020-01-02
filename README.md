@@ -42,6 +42,8 @@ For now, the *decompress()* function is to be called from the same object from w
 
 ### The Genius of David Huffman
 
-Read http://www.skypape.com/huffman.htm 
+- Read https://www.maa.org/press/periodicals/convergence/discovery-of-huffman-codes
+- Analysis as greedy algorithm https://www.codesdope.com/course/algorithms-huffman-codes/
+- Read http://www.skypape.com/huffman.htm 
 
 ![huffman](/img/huffmanDr.jpg)
