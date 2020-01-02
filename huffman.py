@@ -32,14 +32,14 @@ class HeapNode:
 
 class HuffmanCoding:
   def __init__(self, path=None):
-    self.path  : str = path
-    self.heap  : list = []
-    self.codes : dict = {}
-    self.reverse_mapping : dict = {}
+    self.path: str = path
+    self.heap: list = []
+    self.codes: dict = {}
+    self.reverse_mapping: dict = {}
 
   # functions for compression:
   make_frequency_dict = Counter
-  
+
   def make_heap(self, frequency):
     for key in frequency:
       node = HeapNode(key, frequency[key])
@@ -85,6 +85,7 @@ class HuffmanCoding:
   Now, during decompression we need to know how many padded bits were added, so we remove it before decoding our encoded text. Thus, how many padded bits were added, this extra info is stored in the beginning of our encoded text using 8 bits (line 84-85).
   Thus during decompression, we read padding info -> remove padded bits -> then start our decompression by reading on further bits.
   '''
+
   def pad_encoded_text(self, encoded_text):
     extra_padding = 8 - len(encoded_text) % 8
     for i in range(extra_padding):
@@ -106,13 +107,13 @@ class HuffmanCoding:
     return b
 
   # returns what?
-  # ascci version of compressed data which is 
+  # ascci version of compressed data which is
   # non-binary?
   def compress_text(self, text):
     return text
 
-
   # returns a path to the compressed binary file
+
   def compress(self, text=None):
     filename, file_extension = os.path.splitext(self.path)
     output_path = filename + ".bin"
@@ -188,6 +189,7 @@ class HuffmanCoding:
   '''
   these methods are available for timing tests
   '''
+
   def make_frequency_dict_default(self, text):
     frequency = defaultdict(int)
     for character in text:
@@ -197,8 +199,7 @@ class HuffmanCoding:
   def make_frequency_dict_deprecated(self, text):
     frequency = {}
     for character in text:
-      if character not in frequency:	
-        frequency[character] = 0	
-      frequency[character] += 1	      
+      if character not in frequency:
+        frequency[character] = 0
+      frequency[character] += 1
     return frequency
-
