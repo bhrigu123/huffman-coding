@@ -50,12 +50,17 @@ class HuffmanCoding:
       node1 = heapq.heappop(self.heap)
       node2 = heapq.heappop(self.heap)
 
+      # through the merging process we can 
+      # the most frequeny raises to the top
       merged = HeapNode(None, node1.freq + node2.freq)
       merged.left = node1
       merged.right = node2
 
       heapq.heappush(self.heap, merged)
 
+  # recursive function which we can identify 
+  # when we see one.
+  # this needs be examined what it does! 
   def make_codes_helper(self, root, current_code):
     if(root is None):
       return
@@ -104,11 +109,11 @@ class HuffmanCoding:
       b.append(int(byte, 2))
     return b
 
-  # returns what?
-  # ascci version of compressed data which is
-  # non-binary?
-  def compress_text(self, text):
-    return text
+  # takes a text string and returns back 
+  # a stringified version of the binary bit stream 
+  # that represents the compressed output
+  def compress_text(self, text: str) -> str:
+    return str(bin(len(text)))
 
   # returns a path to the compressed binary file
   def compress(self, text: str = None) -> str:
@@ -122,11 +127,19 @@ class HuffmanCoding:
       text = file.read()
       # text = text.rstrip()
 
+      # build a dictionary
       frequency = self.make_frequency_dict(text)
+      # build a heapthat capture info in the dict
       self.make_heap(frequency)
+      # merge nodes so automatically the most 
+      # frequency raises to the top
       self.merge_nodes()
+      # capture this information in a mapping
+      # instead of actually traversing the tree? 
       self.make_codes()
 
+      # actual conversion from text to stringified 
+      # binary stream 
       encoded_text = self.get_encoded_text(text)
       padded_encoded_text = self.pad_encoded_text(encoded_text)
 
@@ -153,15 +166,22 @@ class HuffmanCoding:
 
     return encoded_text
 
-  def decode_text(self, encoded_text):
+  # takes a stringified binary bit stream and refers 
+  # to the reverse_mapping to convert it into human 
+  # readable characters
+  def decode_text(self, encoded_text: str) -> str:
     current_code = ""
     decoded_text = ""
+    print(encoded_text)
+    print(self.reverse_mapping)
 
     for bit in encoded_text:
       current_code += bit
       if(current_code in self.reverse_mapping):
         character = self.reverse_mapping[current_code]
+        print(decoded_text, end = " + ")
         decoded_text += character
+        print(character)
         current_code = ""
 
     return decoded_text
