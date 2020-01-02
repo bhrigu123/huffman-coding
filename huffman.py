@@ -65,8 +65,11 @@ class HuffmanCoding:
     if(root is None):
       return
 
+    # if it a leaf node 
     if(root.char is not None):
+      # place the code for the character
       self.codes[root.char] = current_code
+      # build the reverse map to use for decompress
       self.reverse_mapping[current_code] = root.char
       # print(self.reverse_mapping)
       return
@@ -196,6 +199,7 @@ class HuffmanCoding:
 
   def is_leafnode(self, n):
     return not n.left and not n.right
+    #return n and n.char is None
 
   def decode_text2(self, etext: str) -> str:
     #print("heap size", len(self.heap))
