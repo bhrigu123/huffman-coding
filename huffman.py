@@ -12,7 +12,7 @@ Explanation at http://j.mp/huffmanPy
 
 @total_ordering
 class HeapNode:
-  def __init__(self, char : str, freq : dict):
+  def __init__(self, char: str, freq: dict):
     self.char = char
     self.freq = freq
     self.left = None
@@ -79,7 +79,7 @@ class HuffmanCoding:
       encoded_text += self.codes[character]
     return encoded_text
 
-  def pad_encoded_text(self, encoded_text):
+  def pad_encoded_text(self, encoded_text: str) -> str:
     # Extra bits at the end of the bit stream
     # so that the bit stream is a multiple of 8
     extra_padding = 8 - len(encoded_text) % 8
@@ -111,7 +111,7 @@ class HuffmanCoding:
     return text
 
   # returns a path to the compressed binary file
-  def compress(self, text : str = None) -> str:
+  def compress(self, text: str = None) -> str:
     filename, file_extension = os.path.splitext(self.path)
     output_path = filename + ".bin"
 
@@ -138,12 +138,18 @@ class HuffmanCoding:
 
   """ functions for decompression: """
 
-  def remove_padding(self, padded_encoded_text):
+  def remove_padding(self, padded_encoded_text: str) -> str:
     padded_info = padded_encoded_text[:8]
     extra_padding = int(padded_info, 2)
-
-    padded_encoded_text = padded_encoded_text[8:]
-    encoded_text = padded_encoded_text[:-1 * extra_padding]
+    '''
+    We have {pad_count in 8 bits} +
+            bit_stream +
+            {pads}
+    '''
+    bits_only = slice(8, -1 * extra_padding)
+    encoded_text = padded_encoded_text[bits_only]
+    # padded_encoded_text = padded_encoded_text[8:]
+    # encoded_text = padded_encoded_text[:-1*extra_padding]
 
     return encoded_text
 
