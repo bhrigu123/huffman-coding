@@ -6,7 +6,7 @@ from collections import Counter, defaultdict
 from pprint import pprint
 
 
-@pytest.mark.skip
+#@pytest.mark.skip
 def test_input_equals_output():
 
   hc = huffman.HuffmanCoding("sample.txt")
@@ -38,7 +38,7 @@ def test_with_ABRACADABRA():
   assert filecmp.cmp("sample3_with_twolines.txt", decompressed_file)
 
 
-@pytest.mark.skip
+#@pytest.mark.skip
 def test_with_ABACA():
 
   # no new line at the end
@@ -65,7 +65,7 @@ def test_with_alternate_decompress_code():
   assert filecmp.cmp("sample4.txt", decompressed_file)
 
 
-#@pytest.mark.skip
+@pytest.mark.skip
 def test_performance_compress(capsys):
   hc = huffman.HuffmanCoding("../sample.txt")
 

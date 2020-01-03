@@ -92,7 +92,7 @@ class HuffmanCoding:
     root = heapq.heappop(self.heap)
     current_code = ""
     self.make_codes_helper(root, current_code)
-    # pprint(self.charcode)
+    pprint(sorted(self.charcode.inv.items()))
     heapq.heappush(self.heap, root)
 
   def get_encoded_text(self, text):
