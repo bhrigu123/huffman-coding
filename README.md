@@ -1,6 +1,10 @@
 [![Run on Repl.it](https://repl.it/badge/github/kgashok/huffman-coding)](https://repl.it/github/kgashok/huffman-coding)  
 _(for additional configuration instructions, see [below](https://github.com/kgashok/huffman-coding#repo-to-repl))_
 
+#### The Visual that _really_ works! 
+
+A Glitch Project - https://shining-baroness.glitch.me/
+
 ### Python Implementation of Huffman Coding
 
 Explanation at http://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementation/ or http://j.mp/huffmanPy
@@ -39,6 +43,7 @@ For now, the *decompress()* function is to be called from the same object from w
     ```
 
 5. Now, try clicking the green "Run" button again. IT should work.
+
 
 ### The Genius of David Huffman
 
