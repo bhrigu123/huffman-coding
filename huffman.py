@@ -11,6 +11,7 @@ Explanation at http://j.mp/huffmanPy
 """
 
 
+# Take a look at http://bit.ly/totalOrderExample
 @total_ordering
 class HeapNode:
   def __init__(self, char: str, freq: dict):
@@ -36,11 +37,8 @@ class HuffmanCoding:
     self.path: str = path
     # min heap implemented as an array (list)
     self.heap: list = []
-    # code and reverse_mapping are the inverse
-    # of each other
-    # self.codes: dict = {}
-    # self.reverse_mapping: dict = {}
-    self.charcode : bidict = bidict()
+    # bidirectional char to code to char
+    self.mapping: bidict = bidict()
 
   # functions for compression:
   make_frequency_dict = Counter
@@ -70,14 +68,10 @@ class HuffmanCoding:
     if(root is None):
       return
 
-    # if it a leaf node 
+    # if it a leaf node
     if(root.char is not None):
       # place the code for the character
-      # self.codes[root.char] = current_code
-      # build the reverse map to use for decompress
-      # self.reverse_mapping[current_code] = root.char
-      # print(self.reverse_mapping)
-      self.charcode[root.char] = current_code
+      self.mapping[root.char] = current_code
       return
 
     self.make_codes_helper(root.left, current_code + "0")
@@ -92,14 +86,13 @@ class HuffmanCoding:
     root = heapq.heappop(self.heap)
     current_code = ""
     self.make_codes_helper(root, current_code)
-    pprint(sorted(self.charcode.inv.items()))
+    # pprint(sorted(self.mapping.inv.items()))
     heapq.heappush(self.heap, root)
 
   def get_encoded_text(self, text):
     encoded_text = ""
     for character in text:
-      # encoded_text += self.codes[character]
-      encoded_text += self.charcode[character]
+      encoded_text += self.mapping[character]
     return encoded_text
 
   def pad_encoded_text(self, encoded_text: str) -> str:
@@ -179,8 +172,6 @@ class HuffmanCoding:
     '''
     bits_only = slice(8, -extra_padding)
     encoded_text = padded_encoded_text[bits_only]
-    # padded_encoded_text = padded_encoded_text[8:]
-    # encoded_text = padded_encoded_text[:-1*extra_padding]
 
     return encoded_text
 
@@ -195,21 +186,16 @@ class HuffmanCoding:
 
     for bit in encoded_text:
       current_code += bit
-      # if(current_code in self.reverse_mapping):
-      if(current_code in self.charcode.inv):
-        # character = self.reverse_mapping[current_code]
-        character = self.charcode.inv[current_code]
-        #print(decoded_text, end = " + ")
+      if(current_code in self.mapping.inv):
+        character = self.mapping.inv[current_code]
         decoded_text += character
-        # print(character)
-        # reset the code and build the next
         current_code = ""
 
     return decoded_text
 
   def is_leafnode(self, n):
     return not n.left and not n.right
-    #return n and n.char is None
+    # return n and n.char is None
 
   def decode_text2(self, etext: str) -> str:
     #print("heap size", len(self.heap))
