@@ -27,7 +27,7 @@ def test_with_no_newline_at_end():
   assert filecmp.cmp("sample2_with_newline.txt", decompressed_file)
 
 
-@pytest.mark.skip
+#@pytest.mark.skip
 def test_with_ABRACADABRA():
 
   # no new line at the end

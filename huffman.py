@@ -4,6 +4,7 @@ import os
 from functools import total_ordering
 from collections import defaultdict, Counter
 from pprint import pprint
+from bidict import bidict
 """
 Code for Huffman Coding, compression and decompression.
 Explanation at http://j.mp/huffmanPy
@@ -33,12 +34,13 @@ class HeapNode:
 class HuffmanCoding:
   def __init__(self, path=None):
     self.path: str = path
-    # heap implemented as an array (list)
+    # min heap implemented as an array (list)
     self.heap: list = []
     # code and reverse_mapping are the inverse
     # of each other
-    self.codes: dict = {}
-    self.reverse_mapping: dict = {}
+    # self.codes: dict = {}
+    # self.reverse_mapping: dict = {}
+    self.charcode : bidict = bidict()
 
   # functions for compression:
   make_frequency_dict = Counter
@@ -71,10 +73,11 @@ class HuffmanCoding:
     # if it a leaf node 
     if(root.char is not None):
       # place the code for the character
-      self.codes[root.char] = current_code
+      # self.codes[root.char] = current_code
       # build the reverse map to use for decompress
-      self.reverse_mapping[current_code] = root.char
+      # self.reverse_mapping[current_code] = root.char
       # print(self.reverse_mapping)
+      self.charcode[root.char] = current_code
       return
 
     self.make_codes_helper(root.left, current_code + "0")
@@ -89,12 +92,14 @@ class HuffmanCoding:
     root = heapq.heappop(self.heap)
     current_code = ""
     self.make_codes_helper(root, current_code)
+    # pprint(self.charcode)
     heapq.heappush(self.heap, root)
 
   def get_encoded_text(self, text):
     encoded_text = ""
     for character in text:
-      encoded_text += self.codes[character]
+      # encoded_text += self.codes[character]
+      encoded_text += self.charcode[character]
     return encoded_text
 
   def pad_encoded_text(self, encoded_text: str) -> str:
@@ -190,8 +195,10 @@ class HuffmanCoding:
 
     for bit in encoded_text:
       current_code += bit
-      if(current_code in self.reverse_mapping):
-        character = self.reverse_mapping[current_code]
+      # if(current_code in self.reverse_mapping):
+      if(current_code in self.charcode.inv):
+        # character = self.reverse_mapping[current_code]
+        character = self.charcode.inv[current_code]
         #print(decoded_text, end = " + ")
         decoded_text += character
         # print(character)
