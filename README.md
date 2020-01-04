@@ -53,3 +53,12 @@ For now, the *decompress()* function is to be called from the same object from w
 
 ![huffman](/img/huffmanDr.jpg)
 
+### From Huffman Visualizer (http://j.mp/huffVisual) 
+
+- The **padding** (red), 
+- The bidirectional **hashtable** (aka map), and 
+- the actual compressed **code** (3 bytes in blue) for "abracadabra" (11 bytes), 
+
+achieving a compression of **59**%
+
+![outputForAbracadabra](/img/outputForAbracadabra.png)
