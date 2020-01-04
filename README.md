@@ -52,3 +52,4 @@ For now, the *decompress()* function is to be called from the same object from w
 - Read http://www.skypape.com/huffman.htm 
 
 ![huffman](/img/huffmanDr.jpg)
+
