@@ -31,12 +31,7 @@ For now, the *decompress()* function is to be called from the same object from w
 
 ![run](/img/runButton.png)
 
-4. If you get an error **"No module named pytest"**, then run the following commands on the right hand side in the bash prompt. 
-
-    ```bash
-    chmod 755 install.sh
-    ```
-    followed by
+4. If you get an error **"No module named pytest"**, then run the following command in repl.it prompt (on the right hand side in the bash shell):
     ```bash
     . install.sh  # period and space and 'install.sh'
     # wait for 'pytest' and 'autopep8' install to complete
