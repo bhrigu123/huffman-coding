@@ -1,5 +1,6 @@
 chmod 755 install.sh
 pip3 install bidict
+pip3 install bitarray
 pip3 install pytest
 pip3 install autopep8
 cp gitignore .gitignore

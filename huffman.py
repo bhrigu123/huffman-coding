@@ -5,6 +5,8 @@ from functools import total_ordering
 from collections import defaultdict, Counter
 from pprint import pprint
 from bidict import bidict
+from bitarray.util import huffman_code
+
 """
 Code for Huffman Coding, compression and decompression.
 Explanation at http://j.mp/huffmanPy
@@ -148,6 +150,9 @@ class HuffmanCoding:
       # capture this information in a mapping
       # instead of actually traversing the tree?
       self.make_codes()
+
+      hc = [(c, b.to01()) for c, b in huffman_code(frequency).items()]
+      self.mapping = bidict(hc)
 
       # actual conversion from text to stringified
       # padded binary stream
