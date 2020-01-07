@@ -151,7 +151,7 @@ class HuffmanCoding:
       # instead of actually traversing the tree?
       self.make_codes()
 
-      hc = [(c, b.to01()) for c, b in huffman_code(frequency).items()]
+      hc = [(c, bits.to01()) for c, bits in huffman_code(frequency).items()]
       self.mapping = bidict(hc)
 
       # actual conversion from text to stringified
