@@ -152,7 +152,7 @@ class HuffmanCoding:
       self.make_codes()
 
       hc = [(c, bits.to01()) for c, bits in huffman_code(frequency).items()]
-      self.mapping = bidict(hc)
+      self.mapping.update(hc)
 
       # actual conversion from text to stringified
       # padded binary stream
