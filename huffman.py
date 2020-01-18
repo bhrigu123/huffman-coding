@@ -13,6 +13,7 @@ Code for Huffman Coding, compression and decompression.
 Explanation at http://j.mp/huffmanPy
 """
 
+
 class HuffmanCoding:
   def __init__(self, path=None):
     self.path: str = path
@@ -63,11 +64,11 @@ class HuffmanCoding:
 
     with open(self.path, 'r+') as file, open(output_path, 'wb') as output:
       text = file.read()
-   
+
       # build a dictionary
       frequency = self.make_frequency_dict(text)
       self.hc = huffman_code(frequency)
-      
+
       # actual conversion from text to stringified
       # padded binary stream
       encoded_text = self.get_encoded_text(text)
