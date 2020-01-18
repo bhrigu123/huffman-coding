@@ -168,7 +168,7 @@ class HuffmanCoding:
       # padded binary stream
       #encoded_text = self.get_encoded_text(text)
       encoded_text = self.get_encoded_text(text)
-      
+
       padded_encoded_text = self.pad_encoded_text(encoded_text)
       # convert to actual bytes and write to file
       b = self.get_byte_array(padded_encoded_text)
@@ -258,7 +258,7 @@ class HuffmanCoding:
         bit_string += bits
         byte = file.read(1)
       '''
-      
+
       b = bitarray()
       b.fromfile(file)
       bit_string = b.to01()
