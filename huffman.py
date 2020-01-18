@@ -6,6 +6,7 @@ from collections import defaultdict, Counter
 from pprint import pprint
 from bidict import bidict
 from bitarray.util import huffman_code
+from bitarray import bitarray
 
 """
 Code for Huffman Coding, compression and decompression.
@@ -116,11 +117,14 @@ class HuffmanCoding:
       print("Encoded text not padded properly")
       exit(0)
 
+    '''
     b = bytearray()
     for i in range(0, len(padded_encoded_text), 8):
       byte = padded_encoded_text[i:i + 8]
       b.append(int(byte, 2))
     return b
+    '''
+    return bitarray(padded_encoded_text).tobytes()
 
   # takes a text string and returns back
   # a stringified version of the binary bit stream
@@ -160,7 +164,7 @@ class HuffmanCoding:
       padded_encoded_text = self.pad_encoded_text(encoded_text)
       # convert to actual bytes and write to file
       b = self.get_byte_array(padded_encoded_text)
-      output.write(bytes(b))
+      output.write(b)
 
     print("Compressed")
     return output_path
@@ -231,6 +235,8 @@ class HuffmanCoding:
 
     # bytes to string of bits
     with open(input_path, 'rb') as file, open(output_path, 'w') as output:
+
+      
       bit_string = ""
 
       byte = file.read(1)
@@ -239,6 +245,11 @@ class HuffmanCoding:
         bits = bin(byte)[2:].rjust(8, '0')
         bit_string += bits
         byte = file.read(1)
+      
+      '''
+      b = bitarray()
+      bit_string = b.fromfile(file)
+      '''
 
       # remove the pads, and decompress bits to
       # text by using reverse_mapping
