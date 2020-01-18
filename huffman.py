@@ -25,21 +25,11 @@ class HuffmanCoding:
   def get_encoded_text(self, text):
     b = bitarray()
     b.encode(self.hc, text)
-    return b.to01()
+    return b
 
-  def pad_encoded_text(self, encoded_text: str) -> str:
-    # Extra bits at the end of the bit stream
-    # so that the bit stream is a multiple of 8
-    extra_padding = 8 - len(encoded_text) % 8
-    for i in range(extra_padding):
-      encoded_text += "0"
-
-    # The above pads needs to be removed during decompress
-    # That is also formatted as a byte and stored
-    # ahead of the bit stream
-    padded_info = "{0:08b}".format(extra_padding)
-    encoded_text = padded_info + encoded_text
-    return encoded_text
+  def pad_encoded_text(self, btext: str) -> str:
+    pad_info = format(btext.fill(), 'b').zfill(8)
+    return pad_info + btext.to01()
 
   def get_byte_array(self, padded_encoded_text):
     if(len(padded_encoded_text) % 8 != 0):
@@ -90,8 +80,8 @@ class HuffmanCoding:
             bit_stream +
             {pads}
     '''
-    bits_only = slice(8, -extra_padding)
-    encoded_text = padded_encoded_text[bits_only]
+    depad = slice(8, -extra_padding)
+    encoded_text = padded_encoded_text[depad]
 
     return encoded_text
 
