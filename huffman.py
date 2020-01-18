@@ -42,6 +42,7 @@ class HuffmanCoding:
     self.heap: list = []
     # bidirectional char to code to char
     self.mapping: bidict = bidict()
+    self.hc = None
 
   # functions for compression:
   make_frequency_dict = Counter
@@ -93,10 +94,15 @@ class HuffmanCoding:
     heapq.heappush(self.heap, root)
 
   def get_encoded_text(self, text):
+    '''
     encoded_text = ""
     for character in text:
       encoded_text += self.mapping[character]
     return encoded_text
+    '''
+    b = bitarray()
+    b.encode(self.hc, text)
+    return b.to01()
 
   def pad_encoded_text(self, encoded_text: str) -> str:
     # Extra bits at the end of the bit stream
@@ -155,12 +161,14 @@ class HuffmanCoding:
       # instead of actually traversing the tree?
       self.make_codes()
 
-      hc = [(c, bits.to01()) for c, bits in huffman_code(frequency).items()]
-      self.mapping.update(hc)
+      self.hc = huffman_code(frequency)
+      self.mapping.update([(c, bits.to01()) for c, bits in self.hc.items()])
 
       # actual conversion from text to stringified
       # padded binary stream
+      #encoded_text = self.get_encoded_text(text)
       encoded_text = self.get_encoded_text(text)
+      
       padded_encoded_text = self.pad_encoded_text(encoded_text)
       # convert to actual bytes and write to file
       b = self.get_byte_array(padded_encoded_text)
@@ -188,6 +196,7 @@ class HuffmanCoding:
   # to the reverse_mapping to convert it into human
   # readable characters
   def decode_text(self, encoded_text: str) -> str:
+    '''
     current_code = ""
     decoded_text = ""
     # print(encoded_text)
@@ -201,6 +210,9 @@ class HuffmanCoding:
         current_code = ""
 
     return decoded_text
+    '''
+    d = bitarray(encoded_text)
+    return "".join(d.decode(self.hc))
 
   def is_leafnode(self, n):
     return not n.left and not n.right
@@ -238,7 +250,7 @@ class HuffmanCoding:
 
       '''
       bit_string = ""
-      
+
       byte = file.read(1)
       while(len(byte) > 0):
         byte = ord(byte)
