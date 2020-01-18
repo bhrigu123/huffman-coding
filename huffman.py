@@ -236,20 +236,20 @@ class HuffmanCoding:
     # bytes to string of bits
     with open(input_path, 'rb') as file, open(output_path, 'w') as output:
 
-      
+      '''
       bit_string = ""
-
+      
       byte = file.read(1)
       while(len(byte) > 0):
         byte = ord(byte)
         bits = bin(byte)[2:].rjust(8, '0')
         bit_string += bits
         byte = file.read(1)
+      '''
       
-      '''
       b = bitarray()
-      bit_string = b.fromfile(file)
-      '''
+      b.fromfile(file)
+      bit_string = b.to01()
 
       # remove the pads, and decompress bits to
       # text by using reverse_mapping
