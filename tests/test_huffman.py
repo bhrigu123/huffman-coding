@@ -57,6 +57,7 @@ def test_with_text_returning_encoded_text():
   assert encoded_text != tokens
 
 
+@pytest.mark.skip
 def test_with_alternate_decompress_code():
   hc = huffman.HuffmanCoding("sample4.txt")
   compressed_file = hc.compress()
@@ -65,7 +66,7 @@ def test_with_alternate_decompress_code():
   assert filecmp.cmp("sample4.txt", decompressed_file)
 
 
-# @pytest.mark.skip
+#@pytest.mark.skip
 def test_performance_compress(capsys):
   hc = huffman.HuffmanCoding("../sample.txt")
 
