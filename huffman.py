@@ -42,7 +42,8 @@ class HuffmanCoding:
   # a stringified version of the binary bit stream
   # that represents the compressed output
   def compress_text(self, text: str) -> str:
-    return str(bin(len(text)))
+    pass
+    #return str(bin(len(text)))
 
   # returns a path to the compressed binary file
   def compress(self, text: str = None) -> str:
