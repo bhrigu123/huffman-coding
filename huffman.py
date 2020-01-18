@@ -4,7 +4,7 @@ import os
 from functools import total_ordering
 from collections import defaultdict, Counter
 from pprint import pprint
-from bidict import bidict
+#from bidict import bidict
 from bitarray.util import huffman_code
 from bitarray import bitarray
 
