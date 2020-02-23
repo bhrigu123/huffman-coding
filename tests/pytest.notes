@@ -1,0 +1,76 @@
+FREQUENTLY USED pytest features 
+===============================
+
+# To skip an entire test module, place it at the top of the file
+# Comment it out to enable testing again
+pytestmark = pytest.mark.skipif()
+
+# To skip a specific test use the following decorator
+# Comment it out to enable the test again
+@pytest.mark.skip
+
+
+Documentation link for pytest
+==============================
+
+https://docs.pytest.org/en/latest/usage.html#usage-and-invocations
+
+pytest -x            # stop after first failure
+pytest --maxfail=2   # stop after two failures
+
+
+
+Generating Random Lists
+=======================
+
+def test_random_lists():
+    '''
+    Generates 20 lists of random sizes within 
+    the range -5, 10, inclusive. Modify these as per your choice
+    '''
+    tcount = 20
+    low    = -5 
+    high   = 10
+    size_variation = [3, 5, 6, 20, 1000]
+    
+    def exp_func(alist):
+        return "TBD"    
+    import random
+    #help(random)
+    for test_num in range(tcount):
+        alist = [random.randint(low, high) 
+                 for count in range(
+                     random.choice(size_variation)
+                 )
+                ]
+        print(("Test " + str(test_num), len(alist), exp_func(alist)), 
+              end="...\n"
+             )
+        
+        # Use `alist` for testing your function as required
+        # your asserts go below 
+        #
+        
+
+A Random Marks Generator
+=========================
+
+from random import randint, choice, shuffle 
+
+def genrandom(n): 
+    # choice generates random number of duplicates
+	return ([randint(30,100)] * choice([1, 3]) 
+		for _ in range(n)
+	)
+	
+
+def genrandomlist(): 
+	rlist = []
+	for i in genrandom(40):
+		rlist.extend(i)
+	shuffle(rlist)
+	print (len(list(filter(lambda x: x<=40, rlist))), "failures")
+	print (len(list(filter(lambda x: x==100, rlist))), "100%")
+	return rlist 
+
+    print(rlist)

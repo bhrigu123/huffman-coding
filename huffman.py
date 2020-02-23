@@ -1,183 +1,152 @@
+# heapq is used as min heap
 import heapq
 import os
 from functools import total_ordering
+from collections import defaultdict, Counter
+from pprint import pprint
+#from bidict import bidict
+from bitarray.util import huffman_code
+from bitarray import bitarray
 
 """
-Code for Huffman Coding, compression and decompression. 
-Explanation at http://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementation/
+Code for Huffman Coding, compression and decompression.
+Explanation at http://j.mp/huffmanPy
 """
-
-@total_ordering
-class HeapNode:
-	def __init__(self, char, freq):
-		self.char = char
-		self.freq = freq
-		self.left = None
-		self.right = None
-
-	# defining comparators less_than and equals
-	def __lt__(self, other):
-		return self.freq < other.freq
-
-	def __eq__(self, other):
-		if(other == None):
-			return False
-		if(not isinstance(other, HeapNode)):
-			return False
-		return self.freq == other.freq
 
 
 class HuffmanCoding:
-	def __init__(self, path):
-		self.path = path
-		self.heap = []
-		self.codes = {}
-		self.reverse_mapping = {}
+  def __init__(self, path=None):
+    self.path: str = path
+    self.hc: dict = None
 
-	# functions for compression:
+  # functions for compression:
+  make_frequency_dict = Counter
 
-	def make_frequency_dict(self, text):
-		frequency = {}
-		for character in text:
-			if not character in frequency:
-				frequency[character] = 0
-			frequency[character] += 1
-		return frequency
+  def get_encoded_text(self, text):
+    b = bitarray()
+    b.encode(self.hc, text)
+    return b
 
-	def make_heap(self, frequency):
-		for key in frequency:
-			node = HeapNode(key, frequency[key])
-			heapq.heappush(self.heap, node)
+  def pad_encoded_text(self, btext: str) -> str:
+    pad_info = format(btext.fill(), 'b').zfill(8)
+    return pad_info + btext.to01()
 
-	def merge_nodes(self):
-		while(len(self.heap)>1):
-			node1 = heapq.heappop(self.heap)
-			node2 = heapq.heappop(self.heap)
+  def get_byte_array(self, padded_encoded_text):
+    if(len(padded_encoded_text) % 8 != 0):
+      print("Encoded text not padded properly")
+      exit(0)
 
-			merged = HeapNode(None, node1.freq + node2.freq)
-			merged.left = node1
-			merged.right = node2
+    return bitarray(padded_encoded_text).tobytes()
 
-			heapq.heappush(self.heap, merged)
+  # takes a text string and returns back
+  # a stringified version of the binary bit stream
+  # that represents the compressed output
+  def compress_text(self, text: str) -> str:
+    pass
+    #return str(bin(len(text)))
 
+  # returns a path to the compressed binary file
+  def compress(self, text: str = None) -> str:
+    filename, file_extension = os.path.splitext(self.path)
+    output_path = filename + ".bin"
 
-	def make_codes_helper(self, root, current_code):
-		if(root == None):
-			return
+    if text or not self.path:
+      compress_text(self, text)
 
-		if(root.char != None):
-			self.codes[root.char] = current_code
-			self.reverse_mapping[current_code] = root.char
-			return
+    with open(self.path, 'r+') as file, open(output_path, 'wb') as output:
+      text = file.read()
 
-		self.make_codes_helper(root.left, current_code + "0")
-		self.make_codes_helper(root.right, current_code + "1")
+      # build a dictionary
+      frequency = self.make_frequency_dict(text)
+      self.hc = huffman_code(frequency)
 
+      # actual conversion from text to stringified
+      # padded binary stream
+      encoded_text = self.get_encoded_text(text)
+      padded_encoded_text = self.pad_encoded_text(encoded_text)
+      # convert to actual bytes and write to file
+      bytes = self.get_byte_array(padded_encoded_text)
+      output.write(bytes)
 
-	def make_codes(self):
-		root = heapq.heappop(self.heap)
-		current_code = ""
-		self.make_codes_helper(root, current_code)
+    print("Compressed")
+    return output_path
 
+  """ functions for decompression: """
 
-	def get_encoded_text(self, text):
-		encoded_text = ""
-		for character in text:
-			encoded_text += self.codes[character]
-		return encoded_text
+  def remove_padding(self, padded_encoded_text: str) -> str:
+    padded_info = padded_encoded_text[:8]
+    extra_padding = int(padded_info, 2)
+    '''
+    We have {pad_count in 8 bits} +
+            bit_stream +
+            {pads}
+    '''
+    depad = slice(8, -extra_padding)
+    encoded_text = padded_encoded_text[depad]
 
+    return encoded_text
 
-	def pad_encoded_text(self, encoded_text):
-		extra_padding = 8 - len(encoded_text) % 8
-		for i in range(extra_padding):
-			encoded_text += "0"
+  # takes a stringified binary bit stream and refers
+  # to the reverse_mapping to convert it into human
+  # readable characters
+  def decode_text(self, encoded_text: str) -> str:
+    d = bitarray(encoded_text)
+    return "".join(d.decode(self.hc))
 
-		padded_info = "{0:08b}".format(extra_padding)
-		encoded_text = padded_info + encoded_text
-		return encoded_text
+  # returns a path to the text file
+  # containing the decompressed text
+  def decompress(self, input_path: str) -> str:
+    filename, file_extension = os.path.splitext(self.path)
+    output_path = filename + "_decompressed" + ".txt"
 
+    # bytes to string of bits
+    with open(input_path, 'rb') as file, open(output_path, 'w') as output:
+      bytes = bitarray()
+      bytes.fromfile(file)
+      bit_string = bytes.to01()
+      # remove the pads, and decompress bits to
+      # text by using reverse_mapping
+      encoded_text = self.remove_padding(bit_string)
+      decompressed_text = self.decode_text(encoded_text)
+      output.write(decompressed_text)
 
-	def get_byte_array(self, padded_encoded_text):
-		if(len(padded_encoded_text) % 8 != 0):
-			print("Encoded text not padded properly")
-			exit(0)
+    print("Decompressed")
+    return output_path
 
-		b = bytearray()
-		for i in range(0, len(padded_encoded_text), 8):
-			byte = padded_encoded_text[i:i+8]
-			b.append(int(byte, 2))
-		return b
+  '''
+  these methods are available for timing tests
+  '''
 
+  def decode_text2(self, etext: str) -> str:
+    #print("heap size", len(self.heap))
+    root = heapq.heappop(self.heap)
+    node = root
+    print("etext", etext)
+    decoded = ""
+    for bit in etext:
+      if bit == '1':
+        node = node.right
+        if self.is_leafnode(node):
+          decoded += node.char
+          node = root
+      elif bit == '0':
+        node = node.left
+        if self.is_leafnode(node):
+          decoded += node.char
+          node = root
+      print(decoded)
+    return decoded
 
-	def compress(self):
-		filename, file_extension = os.path.splitext(self.path)
-		output_path = filename + ".bin"
+  def make_frequency_dict_default(self, text):
+    frequency = defaultdict(int)
+    for character in text:
+      frequency[character] += 1
+    return frequency
 
-		with open(self.path, 'r+') as file, open(output_path, 'wb') as output:
-			text = file.read()
-			text = text.rstrip()
-
-			frequency = self.make_frequency_dict(text)
-			self.make_heap(frequency)
-			self.merge_nodes()
-			self.make_codes()
-
-			encoded_text = self.get_encoded_text(text)
-			padded_encoded_text = self.pad_encoded_text(encoded_text)
-
-			b = self.get_byte_array(padded_encoded_text)
-			output.write(bytes(b))
-
-		print("Compressed")
-		return output_path
-
-
-	""" functions for decompression: """
-
-
-	def remove_padding(self, padded_encoded_text):
-		padded_info = padded_encoded_text[:8]
-		extra_padding = int(padded_info, 2)
-
-		padded_encoded_text = padded_encoded_text[8:] 
-		encoded_text = padded_encoded_text[:-1*extra_padding]
-
-		return encoded_text
-
-	def decode_text(self, encoded_text):
-		current_code = ""
-		decoded_text = ""
-
-		for bit in encoded_text:
-			current_code += bit
-			if(current_code in self.reverse_mapping):
-				character = self.reverse_mapping[current_code]
-				decoded_text += character
-				current_code = ""
-
-		return decoded_text
-
-
-	def decompress(self, input_path):
-		filename, file_extension = os.path.splitext(self.path)
-		output_path = filename + "_decompressed" + ".txt"
-
-		with open(input_path, 'rb') as file, open(output_path, 'w') as output:
-			bit_string = ""
-
-			byte = file.read(1)
-			while(len(byte) > 0):
-				byte = ord(byte)
-				bits = bin(byte)[2:].rjust(8, '0')
-				bit_string += bits
-				byte = file.read(1)
-
-			encoded_text = self.remove_padding(bit_string)
-
-			decompressed_text = self.decode_text(encoded_text)
-			
-			output.write(decompressed_text)
-
-		print("Decompressed")
-		return output_path
-
+  def make_frequency_dict_deprecated(self, text):
+    frequency = {}
+    for character in text:
+      if character not in frequency:
+        frequency[character] = 0
+      frequency[character] += 1
+    return frequency
