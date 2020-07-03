@@ -1,31 +1,10 @@
 import heapq
 import os
-from functools import total_ordering
 
 """
-Code for Huffman Coding, compression and decompression. 
-Explanation at http://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementation/
+author: Bhrigu Srivastava
+website: https:bhrigu.me
 """
-
-@total_ordering
-class HeapNode:
-	def __init__(self, char, freq):
-		self.char = char
-		self.freq = freq
-		self.left = None
-		self.right = None
-
-	# defining comparators less_than and equals
-	def __lt__(self, other):
-		return self.freq < other.freq
-
-	def __eq__(self, other):
-		if(other == None):
-			return False
-		if(not isinstance(other, HeapNode)):
-			return False
-		return self.freq == other.freq
-
 
 class HuffmanCoding:
 	def __init__(self, path):
@@ -33,6 +12,24 @@ class HuffmanCoding:
 		self.heap = []
 		self.codes = {}
 		self.reverse_mapping = {}
+
+	class HeapNode:
+		def __init__(self, char, freq):
+			self.char = char
+			self.freq = freq
+			self.left = None
+			self.right = None
+
+		# defining comparators less_than and equals
+		def __lt__(self, other):
+			return self.freq < other.freq
+
+		def __eq__(self, other):
+			if(other == None):
+				return False
+			if(not isinstance(other, HeapNode)):
+				return False
+			return self.freq == other.freq
 
 	# functions for compression:
 
@@ -46,7 +43,7 @@ class HuffmanCoding:
 
 	def make_heap(self, frequency):
 		for key in frequency:
-			node = HeapNode(key, frequency[key])
+			node = self.HeapNode(key, frequency[key])
 			heapq.heappush(self.heap, node)
 
 	def merge_nodes(self):
@@ -54,7 +51,7 @@ class HuffmanCoding:
 			node1 = heapq.heappop(self.heap)
 			node2 = heapq.heappop(self.heap)
 
-			merged = HeapNode(None, node1.freq + node2.freq)
+			merged = self.HeapNode(None, node1.freq + node2.freq)
 			merged.left = node1
 			merged.right = node2
 
