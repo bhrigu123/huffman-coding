@@ -1,7 +1,7 @@
 ### Python Implementaion of Huffman Coding
 
 Explanation on YouTube video https://youtu.be/JCOph23TQTY.
-Was originally posted in blog article at https://bhrigu.me/blog/2017/01/17/huffman-coding-python-implementation/
+Was originally posted in blog article at https://www.bhrigu.dev/blog/huffman-coding-python-implementation
 
 Consists **compress** and **decompress** function.
 
@@ -18,3 +18,10 @@ To run the code for compression of any other text file, edit the `path` variable
 
 
 For now, the *decompress()* function is to be called from the same object from which the *compress()* function was called. (as the encoding information is stored in the data members of the object only) 
+
+#### License
+MIT License
+
+Feel free to use this as per your needs. I'd really appreciate if you:
+- Cite the article in your published papers
+- Drop a note to captain.bhrigu@gmail.com 
