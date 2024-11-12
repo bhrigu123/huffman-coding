@@ -23,5 +23,5 @@ For now, the *decompress()* function is to be called from the same object from w
 MIT License
 
 Feel free to use this as per your needs. I'd really appreciate if you:
-- Cite the article in your published papers
+- Cite the article in your published papers (eg as `Srivastava, Bhrigu. 2017. Huffman coding Python implementation.`)
 - Drop a note to captain.bhrigu@gmail.com 
